@@ -6,6 +6,9 @@ import br.com.hackfest.quemequem.entity.FolhaPessoal;
 
 public interface FolhaPessoalRepositoryCustom {
 
-	List<FolhaPessoal> listarComFiltros(Integer ano, Integer mes, String poder, String nome, String orgao);
+	List<FolhaPessoal> listarComFiltros(Integer ano, Integer mes, String poder, String nome, String orgao, Integer pagina, Integer itensPorPagina);
+	
+	Long quantidadedDeRegistros(Integer ano, Integer mes, String poder, String nome, String orgao);
+
 	
 }

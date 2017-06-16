@@ -46,6 +46,9 @@ public class FolhaPessoal {
 	
 	@Column(name="vantagem")
 	private BigDecimal vantagem;
+	
+	@Column(name="vantagens")
+	private BigDecimal vantagens;
 
 	public String getPoder() {
 		return poder;
@@ -125,6 +128,14 @@ public class FolhaPessoal {
 
 	public void setVantagem(BigDecimal vantagem) {
 		this.vantagem = vantagem;
+	}
+
+	public BigDecimal getVantagens() {
+		return vantagens;
+	}
+
+	public void setVantagens(BigDecimal vantagens) {
+		this.vantagens = vantagens;
 	} 
 	
 	

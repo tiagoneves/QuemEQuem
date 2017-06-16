@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+	<head th:fragment="listagem">
+		<title th:text="#{app.nome}"></title>
+		<link th:href="@{~/css/libs/bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{~/css/style.css}" rel="stylesheet">
+		
+	</head>
+
+		<div class="table-responsive">
+            <table id="lista-folha" class="table table-striped text-centered">
+              <thead>
+                <tr>
+                  <th>[[#{folha.poder}]]</th>
+                  <th>[[#{folha.gestao}]]</th>
+                  <th>[[#{folha.lotacao}]]</th>
+                  <th>[[#{folha.cargo}]]</th>
+                  <th>[[#{folha.regime}]]</th>
+                  <th>[[#{folha.nome}]]</th>
+                  <th>[[#{folha.ano}]]</th>
+                  <th>[[#{folha.mes}]]</th>
+                  <th>[[#{folha.vantagem}]]</th>
+                </tr>
+              </thead>
+              <tbody>
+              <tr v-for="pessoa in pessoal">
+              	  <td> {{pessoa.poder}}</td>
+              	  <td> {{pessoa.gestao}}</td>
+              	  <td> {{pessoa.orgao}}</td>
+              	  <td> {{pessoa.cargo}}</td>
+              	  <td> {{pessoa.regime}}</td>
+              	  <td> {{pessoa.nome}}</td>
+              	  <td> {{pessoa.anoReferencia}}</td>
+              	  <td> {{pessoa.mesReferencia}}</td>
+              	  <td> {{pessoa.vantagens}}</td>
+                </tr>          
+              </tbody>
+            </table>
+          </div>
+
+	<div id="page-navigation">
+		<nav aria-label="...">
+		  <ul class="pagination">
+		    <li v-if="paginaInferior == 1" class="disabled">
+		       <a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+		    </li>
+		    <li v-else>
+		       <a href="#" aria-label="Previous">
+		       	   <span aria-hidden="true">&laquo;</span>
+		       </a>
+		    </li>
+		    <template v-for="pagina in paginasDaJanelaAtual">
+		      <li v-if="pagina == paginaAtiva" class="active">
+		      	<span v-on:click="irParaPagina(pagina)">{{pagina}}<span class="sr-only">(current)</span></span>
+		      </li>
+		      <li v-else>
+		    	<a v-on:click="irParaPagina(pagina)" href="#">{{pagina}}</a>
+		      </li>
+		  	</template>
+		  	<li v-if="paginaSuperior < totalPaginas">
+		      <a href="#" aria-label="Next">
+		        <span aria-hidden="true">&raquo;</span>
+		      </a>
+		    </li>
+		    <li v-else class="disabled">
+		      <a href="#" aria-label="Next">
+		        <span aria-hidden="true">&raquo;</span>
+		      </a>
+		    </li>
+		  </ul>
+		</nav>
+	</div>	
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+	<script th:src="@{~/js/libs/bootstrap.min.js}"></script>
+	<script th:src="@{~/js/libs/jquery-3.1.1.min.js}"></script>
+	<script th:src="@{~/js/libs/vue.min.js}" ></script>
+	<script src="../../assets/js/docs.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+
+ 	<script th:src="@{~/js/model/folha.js}" ></script>
+
+</html>

@@ -1,14 +1,15 @@
 package br.com.hackfest.quemequem.controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.hackfest.quemequem.entity.FolhaPessoal;
@@ -38,13 +39,14 @@ public class FolhaPessoalController {
 	}
 	
 	
-	@RequestMapping(value = "/{ano}/{mes}/{poder}/{nome}/{orgao}", method = RequestMethod.GET)
-	public ResponseEntity<Collection<FolhaPessoal>> listarComParametros(@PathVariable("ano") Integer ano, 
-			@PathVariable("mes") Integer mes, @PathVariable("poder") 
-			String poder, @PathVariable("nome") String nome, 
-			@PathVariable("orgao") String orgao) {
+	@RequestMapping(value = "/pagina", method = RequestMethod.GET)
+	public ResponseEntity<Collection<FolhaPessoal>> obterPagina(@RequestParam("ano") Integer ano, 
+			@RequestParam("mes") Integer mes, @RequestParam("poder") 
+			String poder, @RequestParam("nome") String nome, 
+			@RequestParam("orgao") String orgao, @RequestParam("pagina") Integer pagina, 
+			@RequestParam("qtditens") Integer itensPorPagina) {
 		
-		Collection<FolhaPessoal> pessoal = folhaPessoalService.listarComFiltros(ano, mes, poder, nome, orgao);
+		Collection<FolhaPessoal> pessoal = folhaPessoalService.listarComFiltros(ano, mes, poder, nome, orgao, pagina, itensPorPagina);
 
 		if (pessoal == null || pessoal.isEmpty()) {
 			return new ResponseEntity<Collection<FolhaPessoal>>(HttpStatus.NO_CONTENT);
@@ -52,6 +54,53 @@ public class FolhaPessoalController {
 
 		return new ResponseEntity<Collection<FolhaPessoal>>(pessoal, HttpStatus.OK);
 	
-	}	
+	}
+	
+	class ResultadoConsulta {
+		
+		Long quantidadeDePaginas;
+		
+		Collection<FolhaPessoal> pessoal;
+		
+		ResultadoConsulta(){
+			quantidadeDePaginas = 0l;
+			pessoal = new ArrayList<FolhaPessoal>();
+		}
+
+		public Long getQuantidadeDePaginas() {
+			return quantidadeDePaginas;
+		}
+
+		public void setQuantidadeDePaginas(Long quantidadeDePaginas) {
+			this.quantidadeDePaginas = quantidadeDePaginas;
+		}
+
+		public Collection<FolhaPessoal> getPessoal() {
+			return pessoal;
+		}
+
+		public void setPessoal(Collection<FolhaPessoal> pessoal) {
+			this.pessoal = pessoal;
+		}
+		
+	}
+	
+	@RequestMapping(value = "/consultar", method = RequestMethod.GET)
+	public ResponseEntity<ResultadoConsulta> consultar(@RequestParam("ano") Integer ano, 
+			@RequestParam("mes") Integer mes, @RequestParam("poder") 
+			String poder, @RequestParam("nome") String nome, 
+			@RequestParam("orgao") String orgao, @RequestParam("pagina") Integer pagina, 
+			@RequestParam("qtditens") Integer itensPorPagina) {
+		
+		ResultadoConsulta resultado = new ResultadoConsulta();
+		
+		resultado.pessoal = folhaPessoalService.listarComFiltros(ano, mes, poder, nome, orgao, pagina, itensPorPagina);
+		resultado.quantidadeDePaginas = folhaPessoalService.quantidadeDePaginas(ano, mes, poder, nome, orgao, itensPorPagina);
+		
+		return new ResponseEntity<ResultadoConsulta>(resultado, HttpStatus.OK);
+	
+	}
+	
+	
 
 }
