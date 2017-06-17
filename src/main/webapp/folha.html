@@ -7,6 +7,10 @@
 		<link th:href="@{~/css/style.css}" rel="stylesheet">
 		
 	</head>
+	
+	<div class="todo">
+	
+		<div class="carregando"></div>
 
 		<div class="table-responsive">
             <table id="lista-folha" class="table table-striped text-centered">
@@ -38,6 +42,7 @@
               </tbody>
             </table>
           </div>
+    </div>
 
 	<div id="page-navigation">
 		<nav aria-label="...">
@@ -51,7 +56,7 @@
 		       </a>
 		    </li>
 		    <template v-for="pagina in paginasDaJanelaAtual">
-		      <li v-if="pagina == paginaAtiva" class="active">
+		      <li v-if="pagina === paginaAtiva" class="active">
 		      	<span v-on:click="irParaPagina(pagina)">{{pagina}}<span class="sr-only">(current)</span></span>
 		      </li>
 		      <li v-else>

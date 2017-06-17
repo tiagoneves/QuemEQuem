@@ -43,52 +43,28 @@ var pageNavVM = new Vue({
 	 }, methods: {
 		 
 		 irParaPagina: function(numero){
-			 
-			 $.get('/folha_pessoal/pagina?ano=0&mes=0&poder=&nome=&orgao=&pagina='+numero+'&qtditens='+itensPorPagina, 
+			
+			$('.carregando').css('display', 'block');
+			$('tbody').css('color', '#aaa');
+			
+			$.get('/folha_pessoal/pagina?ano=0&mes=0&poder=&nome=&orgao=&pagina='+numero+'&qtditens='+itensPorPagina, 
 						function(data, status){
 					
 			        tabelaVM.pessoal = data;
+			        			        
+			        pageNavVM.paginaAtiva = numero;
 			        
-			        this.paginaAtiva = numero;
-			   
+			        $('.carregando').css('display', 'none');
+					$('tbody').css('color', '#333');
 			        
 			    });
+
 			 
 		 }
 		 
 	 }
 	 
 });
-
-
-
-/*function quantidadeJanelas(quantidadePaginas, paginasPorJanela){
-	
-	
-	var janelas = quantidadePaginas / paginasPorJanela;
-	
-	var resto = quantidadePaginas % paginasPorJanela;
-	
-	if (resto > 0 )
-		janelas++;
-	
-	return janelas;
-	
-	
-}
-
-function obterJanela(numero, quantidadeJanelas, paginasPorJanela, quantidadePaginas) {
-	
-	var janela = [(numero - 1) * paginasPorJanela + 1, numero * paginasPorJanela];
-	
-	
-	if (janela[1] > quantidadePaginas)
-		janela[1] = quantidadePaginas;
-	
-	return janela;
-	
-}*/
-
 
 
 $(document).ready(function(){
