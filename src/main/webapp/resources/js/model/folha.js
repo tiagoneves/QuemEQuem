@@ -44,21 +44,6 @@ var pageNavVM = new Vue({
 	 }, methods: {
 		 
 		 irParaPagina: function(numero){
-			
-			/*$('.carregando').css('display', 'block');
-			$('tbody').css('color', '#aaa');
-			
-			$.get('/folha_pessoal/pagina?ano=0&mes=0&poder=&nome=&orgao=&pagina='+numero+'&qtditens='+itensPorPagina, 
-						function(data, status){
-					
-			        tabelaVM.pessoal = data;
-			        			        
-			        pageNavVM.paginaAtiva = numero;
-			        
-			        $('.carregando').css('display', 'none');
-					$('tbody').css('color', '#333');
-			        
-			    });*/
 			 
 			 exibirPagina(numero);
 			 
@@ -139,8 +124,7 @@ function carregarDados(ano, mes, poder, nome, orgao, primeiraPagina, paginaAserE
 $(document).ready(function(){
 		
 	carregarDados(0, 0, '', '', '', 1, 1);
-	
-	 
+
 });
 
 
