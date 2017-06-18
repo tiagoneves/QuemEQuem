@@ -15,14 +15,14 @@ public class FolhaPessoalRepositoryImpl implements FolhaPessoalRepositoryCustom 
 
 	@Override
 	public List<FolhaPessoal> listarComFiltros(Integer ano, Integer mes, 
-			String poder, String nome, String orgao, Integer pagina, Integer itensPorPagina) {		
+			String poder, String nome, String orgao, Integer offset, Integer limit) {		
 		
 		String jpql = "SELECT f FROM FolhaPessoal f"+adicionarFiltros(ano, mes, poder, nome, orgao)+
-				" ORDER BY f.anoReferencia DESC, f.mesReferencia DESC";
+				" ORDER BY f.nome, f.anoReferencia DESC, f.mesReferencia DESC";
 		
 		TypedQuery<FolhaPessoal> query = em.createQuery(jpql, FolhaPessoal.class);
-		query.setFirstResult((pagina - 1) * itensPorPagina);
-		query.setMaxResults(itensPorPagina);
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
 				
 		return query.getResultList();
 		
@@ -68,6 +68,21 @@ public class FolhaPessoalRepositoryImpl implements FolhaPessoalRepositoryCustom 
 		TypedQuery<Long> query = em.createQuery(jpql, Long.class);
 					
 		return query.getSingleResult();
+		
+	}
+
+	@Override
+	public Integer quantidadedDeRegistros(Integer ano, Integer mes, String poder, String nome, String orgao,
+			Integer offset, Integer limit) {
+		
+		
+		String jpql = "SELECT f FROM FolhaPessoal f"+adicionarFiltros(ano, mes, poder, nome, orgao);
+		
+		TypedQuery<Long> query = em.createQuery(jpql, Long.class);
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
+		
+		return query.getResultList().size();
 		
 	}
 	

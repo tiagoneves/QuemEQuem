@@ -47,11 +47,11 @@
 	<div id="page-navigation">
 		<nav aria-label="...">
 		  <ul class="pagination">
-		    <li v-if="paginaInferior == 1" class="disabled">
+		    <li v-if="paginaAtiva == 1" class="disabled">
 		       <a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
 		    </li>
 		    <li v-else>
-		       <a href="#" aria-label="Previous">
+		       <a v-on:click="decrementarPagina()" href="#" aria-label="Previous">
 		       	   <span aria-hidden="true">&laquo;</span>
 		       </a>
 		    </li>
@@ -63,8 +63,8 @@
 		    	<a v-on:click="irParaPagina(pagina)" href="#">{{pagina}}</a>
 		      </li>
 		  	</template>
-		  	<li v-if="paginaSuperior < totalPaginas">
-		      <a href="#" aria-label="Next">
+		  	<li v-if="tamanhoJanela < totalPaginas">
+		      <a v-on:click="incrementarPagina()" href="#" aria-label="Next">
 		        <span aria-hidden="true">&raquo;</span>
 		      </a>
 		    </li>

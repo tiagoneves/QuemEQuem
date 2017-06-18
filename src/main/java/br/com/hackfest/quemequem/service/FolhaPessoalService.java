@@ -19,9 +19,10 @@ public class FolhaPessoalService {
 		return folhaPessoalRepository.findAll();
 	}
 	
-	public List<FolhaPessoal> listarComFiltros(Integer ano, Integer mes, String poder, String nome, String orgao, Integer pagina, Integer itensPorPagina) {
+	public List<FolhaPessoal> listarComFiltros(Integer ano, Integer mes, String poder, String nome, String orgao, Integer itensPorPagina, Integer paginaInicial, 
+			Integer quantidadeDePaginas) {
 		
-		return folhaPessoalRepository.listarComFiltros(ano, mes, poder, nome, orgao, pagina, itensPorPagina);
+		return folhaPessoalRepository.listarComFiltros(ano, mes, poder, nome, orgao, (paginaInicial - 1) * itensPorPagina, itensPorPagina * quantidadeDePaginas);
 		
 	}
 	
@@ -42,6 +43,21 @@ public class FolhaPessoalService {
 	public int quantidadeDeRegistrosUltimaPagina(long quantidadeDeRegistros, int itensPorPagina) {
 		return (int) (quantidadeDeRegistros % itensPorPagina);
 
+	}
+	
+	public Integer quantidadeDePaginas(Integer ano,  Integer mes, String poder,  String nome, String orgao, Integer itensPorPagina, Integer primeiraPagina, Integer ultimaPagina) {
+		
+		
+		int qtdRegistros = folhaPessoalRepository.quantidadedDeRegistros(ano, mes, poder, nome, orgao, primeiraPagina - 1, itensPorPagina * ultimaPagina);
+		
+		int paginas = qtdRegistros / itensPorPagina;
+		
+		if (qtdRegistros % itensPorPagina > 0)
+			paginas++;
+		
+		return paginas;
+		
+		
 	}
 	
 	

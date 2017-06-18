@@ -39,7 +39,7 @@ public class FolhaPessoalController {
 	}
 	
 	
-	@RequestMapping(value = "/pagina", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/pagina", method = RequestMethod.GET)
 	public ResponseEntity<Collection<FolhaPessoal>> obterPagina(@RequestParam("ano") Integer ano, 
 			@RequestParam("mes") Integer mes, @RequestParam("poder") 
 			String poder, @RequestParam("nome") String nome, 
@@ -54,24 +54,24 @@ public class FolhaPessoalController {
 
 		return new ResponseEntity<Collection<FolhaPessoal>>(pessoal, HttpStatus.OK);
 	
-	}
+	}*/
 	
 	class ResultadoConsulta {
 		
-		Long quantidadeDePaginas;
+		Integer quantidadeDePaginas;
 		
 		Collection<FolhaPessoal> pessoal;
 		
 		ResultadoConsulta(){
-			quantidadeDePaginas = 0l;
+			quantidadeDePaginas = 0;
 			pessoal = new ArrayList<FolhaPessoal>();
 		}
 
-		public Long getQuantidadeDePaginas() {
+		public Integer getQuantidadeDePaginas() {
 			return quantidadeDePaginas;
 		}
 
-		public void setQuantidadeDePaginas(Long quantidadeDePaginas) {
+		public void setQuantidadeDePaginas(Integer quantidadeDePaginas) {
 			this.quantidadeDePaginas = quantidadeDePaginas;
 		}
 
@@ -89,13 +89,20 @@ public class FolhaPessoalController {
 	public ResponseEntity<ResultadoConsulta> consultar(@RequestParam("ano") Integer ano, 
 			@RequestParam("mes") Integer mes, @RequestParam("poder") 
 			String poder, @RequestParam("nome") String nome, 
-			@RequestParam("orgao") String orgao, @RequestParam("pagina") Integer pagina, 
-			@RequestParam("qtditens") Integer itensPorPagina) {
+			@RequestParam("orgao") String orgao, @RequestParam("itensporpagina") Integer itensPorPagina,
+			@RequestParam("primeirapagina") Integer primeiraPagina, 
+			@RequestParam("quantidadedepaginas") Integer qtdPaginas) {
 		
 		ResultadoConsulta resultado = new ResultadoConsulta();
 		
-		resultado.pessoal = folhaPessoalService.listarComFiltros(ano, mes, poder, nome, orgao, pagina, itensPorPagina);
-		resultado.quantidadeDePaginas = folhaPessoalService.quantidadeDePaginas(ano, mes, poder, nome, orgao, itensPorPagina);
+		resultado.pessoal = folhaPessoalService.listarComFiltros(ano, mes, poder, nome, orgao, itensPorPagina, primeiraPagina, qtdPaginas);
+		
+		int qtdRegistros = resultado.pessoal.size();
+		
+		resultado.quantidadeDePaginas = qtdRegistros / itensPorPagina;
+		
+		if (qtdRegistros % itensPorPagina > 0)
+			resultado.quantidadeDePaginas++;
 		
 		return new ResponseEntity<ResultadoConsulta>(resultado, HttpStatus.OK);
 	
