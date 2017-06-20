@@ -1,7 +1,5 @@
 package br.com.hackfest.quemequem.entity;
 
-import java.math.BigDecimal;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,10 +14,10 @@ public class FolhaPessoal {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	@Column(name="poder")
-	private String poder;
 	
+	@Column(name="esfera")
+	private String esfera;
+
 	@Column(name="gestao")
 	private String gestao;
 	
@@ -28,12 +26,6 @@ public class FolhaPessoal {
 	
 	@Column(name="cargo")
 	private String cargo;
-	
-	@Column(name="regime")
-	private String regime;
-	
-	@Column(name="cpf")
-	private String cpf;
 	
 	@Column(name="nome")
 	private String nome;
@@ -45,17 +37,41 @@ public class FolhaPessoal {
 	private Integer anoReferencia;
 	
 	@Column(name="vantagem")
-	private BigDecimal vantagem;
+	private Float vantagem;
 	
-	@Column(name="vantagens")
-	private BigDecimal vantagens;
-
-	public String getPoder() {
-		return poder;
+	public FolhaPessoal(){
+		super();
+		this.esfera = "";
+		this.gestao = "";
+		this.orgao = "";
+		this.cargo = "";
+		this.nome = "";
+		this.mesReferencia = 0;
+		this.anoReferencia = 0;
+		this.vantagem = 0f;
 	}
 
-	public void setPoder(String poder) {
-		this.poder = poder;
+	public FolhaPessoal(String esfera, String gestao, String orgao, String cargo, String nome, Integer mesReferencia,
+			Integer anoReferencia, Float vantagem) {
+		super();
+		this.esfera = esfera;
+		this.gestao = gestao;
+		this.orgao = orgao;
+		this.cargo = cargo;
+		this.nome = nome;
+		this.mesReferencia = mesReferencia;
+		this.anoReferencia = anoReferencia;
+		this.vantagem = vantagem;
+	}
+	
+	
+	public String getEsfera() {
+		return esfera;
+	}
+
+
+	public void setEsfera(String esfera) {
+		this.esfera = esfera;
 	}
 
 	public String getGestao() {
@@ -82,22 +98,6 @@ public class FolhaPessoal {
 		this.cargo = cargo;
 	}
 
-	public String getRegime() {
-		return regime;
-	}
-
-	public void setRegime(String regime) {
-		this.regime = regime;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
 	public String getNome() {
 		return nome;
 	}
@@ -122,21 +122,13 @@ public class FolhaPessoal {
 		this.anoReferencia = anoReferencia;
 	}
 
-	public BigDecimal getVantagem() {
+	public Float getVantagem() {
 		return vantagem;
 	}
 
-	public void setVantagem(BigDecimal vantagem) {
+	public void setVantagem(Float vantagem) {
 		this.vantagem = vantagem;
 	}
 
-	public BigDecimal getVantagens() {
-		return vantagens;
-	}
-
-	public void setVantagens(BigDecimal vantagens) {
-		this.vantagens = vantagens;
-	} 
-	
 	
 }

@@ -58,7 +58,7 @@ var pageNavVM = new Vue({
 			 if (this.paginaAtiva <= this.paginaSuperior)
 				 exibirPagina(this.paginaAtiva);
 			 else
-				 carregarDados(0, 0, '', '', '', ++pageNavVM.paginaInferior, this.paginaAtiva);
+				 carregarDados(0, 0, '', '', '', '', ++pageNavVM.paginaInferior, this.paginaAtiva);
 			 
 		 },
 		 
@@ -69,7 +69,7 @@ var pageNavVM = new Vue({
 			 if (this.paginaAtiva >= this.paginaInferior)
 				 exibirPagina(this.paginaAtiva);
 			 else
-				 carregarDados(0, 0, '', '', '', --pageNavVM.paginaInferior, this.paginaAtiva);
+				 carregarDados(0, 0, '', '', '', '', --pageNavVM.paginaInferior, this.paginaAtiva);
 			 
 		 }
 	 
@@ -89,12 +89,12 @@ function exibirPagina(numero){
 		
 }
 
-function carregarDados(ano, mes, poder, nome, orgao, primeiraPagina, paginaAserExibida){
+function carregarDados(ano, mes, esfera, gestao, nome, orgao, primeiraPagina, paginaAserExibida){
 	
 	$('.carregando').css('display', 'block');
 	$('tbody').css('color', '#aaa');
 	
-	$.get('/folha_pessoal/consultar?ano='+ano+'&mes='+mes+'&poder='+poder+'&nome='+nome+'&orgao='+orgao+
+	$.get('/folha_pessoal/consultar?ano='+ano+'&mes='+mes+'&esfera='+esfera+'&gestao='+gestao+'&nome='+nome+'&orgao='+orgao+
 			'&itensporpagina='+pageNavVM.itensPorPagina+
 			'&primeirapagina='+primeiraPagina+'&quantidadedepaginas='+(pageNavVM.tamanhoJanela + 1), 
 			function(data, status){
@@ -123,7 +123,7 @@ function carregarDados(ano, mes, poder, nome, orgao, primeiraPagina, paginaAserE
 
 $(document).ready(function(){
 		
-	carregarDados(0, 0, '', '', '', 1, 1);
+	carregarDados(0, 0, '', '', '', '', 1, 1);
 
 });
 

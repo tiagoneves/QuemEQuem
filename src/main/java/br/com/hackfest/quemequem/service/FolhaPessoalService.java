@@ -1,5 +1,10 @@
 package br.com.hackfest.quemequem.service;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,43 +24,64 @@ public class FolhaPessoalService {
 		return folhaPessoalRepository.findAll();
 	}
 	
-	public List<FolhaPessoal> listarComFiltros(Integer ano, Integer mes, String poder, String nome, String orgao, Integer itensPorPagina, Integer paginaInicial, 
+	public List<FolhaPessoal> listarComFiltros(Integer ano, Integer mes, String esfera, String gestao, String nome, String orgao, Integer itensPorPagina, Integer paginaInicial, 
 			Integer quantidadeDePaginas) {
 		
-		return folhaPessoalRepository.listarComFiltros(ano, mes, poder, nome, orgao, (paginaInicial - 1) * itensPorPagina, itensPorPagina * quantidadeDePaginas);
+		return folhaPessoalRepository.listarComFiltros(ano, mes, esfera, gestao, nome, orgao, (paginaInicial - 1) * itensPorPagina, itensPorPagina * quantidadeDePaginas);
 		
 	}
 	
-	public Long quantidadeDePaginas(Integer ano,  Integer mes, String poder,  String nome, String orgao, Integer itensPorPagina) {
 		
-		Long quantidadeRegistros = folhaPessoalRepository.quantidadedDeRegistros(ano, mes, poder, nome, orgao);
-		
-		long paginas = quantidadeRegistros.longValue() / itensPorPagina;
-		
-		if (quantidadeRegistros.longValue() % itensPorPagina > 0)
-			paginas++;
-		
-		return paginas;
-		
-		
-	}
-	
 	public int quantidadeDeRegistrosUltimaPagina(long quantidadeDeRegistros, int itensPorPagina) {
 		return (int) (quantidadeDeRegistros % itensPorPagina);
 
 	}
 	
-	public Integer quantidadeDePaginas(Integer ano,  Integer mes, String poder,  String nome, String orgao, Integer itensPorPagina, Integer primeiraPagina, Integer ultimaPagina) {
+	
+	public void importarDadosEsferaEstadual(){
 		
+		try {
+			
+			File file = new File("C:/Users/Tiago/Documents/TCE-PB-SAGRES-Folha_Pessoal_Esfera_Estadual.txt");
+			long fileLength = file.length();
+			long totalLido = 0l;
+			int progresso = 0;
+			int progressoAtual = 0;
+			
+			FileReader fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+			String linha = br.readLine();
+			FolhaPessoal folhaPessoal = null;
+			while((linha = br.readLine()) != null) { 	
+				String[] dados = linha.split("\\|"); 
+				totalLido += linha.getBytes().length;
+				progresso = (int) ((totalLido * 100) / fileLength);
+				
+				if (progresso > progressoAtual){
+					System.out.println(progresso+"%");
+					progressoAtual = progresso;
+				}
 		
-		int qtdRegistros = folhaPessoalRepository.quantidadedDeRegistros(ano, mes, poder, nome, orgao, primeiraPagina - 1, itensPorPagina * ultimaPagina);
-		
-		int paginas = qtdRegistros / itensPorPagina;
-		
-		if (qtdRegistros % itensPorPagina > 0)
-			paginas++;
-		
-		return paginas;
+
+			folhaPessoal = new FolhaPessoal("Estadual", dados[0], dados[1], dados[2], dados[5], Integer.parseInt(dados[6].substring(0, 2)), 
+						Integer.parseInt(dados[6].substring(2, 6)), Float.parseFloat(dados[8])) ;
+				
+				folhaPessoalRepository.save(folhaPessoal);
+				
+
+			}
+			
+			System.out.println("100%");
+			
+			br.close();
+					
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 	}

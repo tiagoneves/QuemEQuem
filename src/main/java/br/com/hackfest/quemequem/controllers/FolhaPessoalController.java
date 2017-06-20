@@ -87,15 +87,15 @@ public class FolhaPessoalController {
 	
 	@RequestMapping(value = "/consultar", method = RequestMethod.GET)
 	public ResponseEntity<ResultadoConsulta> consultar(@RequestParam("ano") Integer ano, 
-			@RequestParam("mes") Integer mes, @RequestParam("poder") 
-			String poder, @RequestParam("nome") String nome, 
+			@RequestParam("mes") Integer mes, @RequestParam("esfera") 
+			String esfera, @RequestParam("gestao") String gestao, @RequestParam("nome") String nome, 
 			@RequestParam("orgao") String orgao, @RequestParam("itensporpagina") Integer itensPorPagina,
 			@RequestParam("primeirapagina") Integer primeiraPagina, 
 			@RequestParam("quantidadedepaginas") Integer qtdPaginas) {
 		
 		ResultadoConsulta resultado = new ResultadoConsulta();
 		
-		resultado.pessoal = folhaPessoalService.listarComFiltros(ano, mes, poder, nome, orgao, itensPorPagina, primeiraPagina, qtdPaginas);
+		resultado.pessoal = folhaPessoalService.listarComFiltros(ano, mes, esfera, gestao, nome, orgao, itensPorPagina, primeiraPagina, qtdPaginas);
 		
 		int qtdRegistros = resultado.pessoal.size();
 		
@@ -107,7 +107,6 @@ public class FolhaPessoalController {
 		return new ResponseEntity<ResultadoConsulta>(resultado, HttpStatus.OK);
 	
 	}
-	
 	
 
 }

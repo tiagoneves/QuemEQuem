@@ -15,26 +15,31 @@ public class FolhaPessoalRepositoryImpl implements FolhaPessoalRepositoryCustom 
 
 	@Override
 	public List<FolhaPessoal> listarComFiltros(Integer ano, Integer mes, 
-			String poder, String nome, String orgao, Integer offset, Integer limit) {		
+			String esfera, String gestao, String nome, String orgao, Integer offset, Integer limit) {		
 		
-		String jpql = "SELECT f FROM FolhaPessoal f"+adicionarFiltros(ano, mes, poder, nome, orgao)+
+		String jpql = "SELECT f FROM FolhaPessoal f"+adicionarFiltros(ano, mes, esfera, gestao, nome, orgao)+
 				" ORDER BY f.nome, f.anoReferencia DESC, f.mesReferencia DESC";
 		
 		TypedQuery<FolhaPessoal> query = em.createQuery(jpql, FolhaPessoal.class);
 		query.setFirstResult(offset);
 		query.setMaxResults(limit);
-				
+						
 		return query.getResultList();
 		
 	}
 	
-	private String adicionarFiltros(Integer ano, Integer mes, String poder, String nome, String orgao){
+	private String adicionarFiltros(Integer ano, Integer mes, String esfera, String gestao, String nome, String orgao){
 		
 		String where = "";
 		
-		if (poder != null && !poder.trim().isEmpty()) {
+		if (esfera != null && !esfera.trim().isEmpty()) {
 			where += where.isEmpty()? " WHERE " : " AND ";
-			where += "f.poder = '"+poder+"'";
+			where += "f.esfera = '"+esfera+"'";
+		}
+		
+		if (gestao != null && !gestao.trim().isEmpty()) {
+			where += where.isEmpty()? " WHERE " : " AND ";
+			where += "f.gestao = '"+gestao+"'";
 		}
 		
 		if (orgao != null && !orgao.trim().isEmpty()) {
@@ -58,31 +63,6 @@ public class FolhaPessoalRepositoryImpl implements FolhaPessoalRepositoryCustom 
 		}
 		
 		return where;
-		
-	}
-	
-	public Long quantidadedDeRegistros(Integer ano, Integer mes, String poder, String nome, String orgao){
-		
-		String jpql = "SELECT count(f) FROM FolhaPessoal f"+adicionarFiltros(ano, mes, poder, nome, orgao);
-			
-		TypedQuery<Long> query = em.createQuery(jpql, Long.class);
-					
-		return query.getSingleResult();
-		
-	}
-
-	@Override
-	public Integer quantidadedDeRegistros(Integer ano, Integer mes, String poder, String nome, String orgao,
-			Integer offset, Integer limit) {
-		
-		
-		String jpql = "SELECT f FROM FolhaPessoal f"+adicionarFiltros(ano, mes, poder, nome, orgao);
-		
-		TypedQuery<Long> query = em.createQuery(jpql, Long.class);
-		query.setFirstResult(offset);
-		query.setMaxResults(limit);
-		
-		return query.getResultList().size();
 		
 	}
 	

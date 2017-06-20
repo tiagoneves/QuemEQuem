@@ -16,11 +16,10 @@
             <table id="lista-folha" class="table table-striped text-centered">
               <thead>
                 <tr>
-                  <th>[[#{folha.poder}]]</th>
+                  <th>[[#{folha.esfera}]]</th>
                   <th>[[#{folha.gestao}]]</th>
                   <th>[[#{folha.lotacao}]]</th>
                   <th>[[#{folha.cargo}]]</th>
-                  <th>[[#{folha.regime}]]</th>
                   <th>[[#{folha.nome}]]</th>
                   <th>[[#{folha.ano}]]</th>
                   <th>[[#{folha.mes}]]</th>
@@ -29,15 +28,14 @@
               </thead>
               <tbody>
               <tr v-for="pessoa in pessoal">
-              	  <td> {{pessoa.poder}}</td>
+                  <td> {{pessoa.esfera}}</td>      
               	  <td> {{pessoa.gestao}}</td>
               	  <td> {{pessoa.orgao}}</td>
               	  <td> {{pessoa.cargo}}</td>
-              	  <td> {{pessoa.regime}}</td>
               	  <td> {{pessoa.nome}}</td>
               	  <td> {{pessoa.anoReferencia}}</td>
               	  <td> {{pessoa.mesReferencia}}</td>
-              	  <td> {{pessoa.vantagens}}</td>
+              	  <td> {{pessoa.vantagem}}</td>
                 </tr>          
               </tbody>
             </table>
