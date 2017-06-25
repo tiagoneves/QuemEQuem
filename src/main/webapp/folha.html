@@ -3,17 +3,88 @@
 
 	<head th:fragment="listagem">
 		<title th:text="#{app.nome}"></title>
-		<link th:href="@{~/css/libs/bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{~/css/libs/app.css}" rel="stylesheet">
+		<link th:href="@{~/css/libs/foundation.min.css}" rel="stylesheet">
 		<link th:href="@{~/css/style.css}" rel="stylesheet">
 		
 	</head>
 	
 	<div class="todo">
 	
+		<div id="div-filtros" >
+	
+		<div class="row">
+    		<div  class="small-6 large-4 columns">
+      			<label>[[#{folha.esfera}]]
+      			   <select id="select-esferas" v-on:change="getAnos()">
+      			   		<option value=""></option>
+      			   		<template v-for="esfera in esferas">
+      						<option v-bind:value="esfera.value">{{esfera.label}}</option>
+      					</template>
+  					</select>
+      			</label>
+    		</div>
+   			<div class="small-6 large-4 columns">
+      			<label>[[#{folha.ano}]]
+        			<select id="select-anos" v-on:change="getMeses()">
+        				<option value=""></option>
+        				<template v-for="ano in anos">
+      						<option v-bind:value="ano">{{ano}}</option>
+      					</template>
+  					</select>
+      			</label>
+    		</div>
+    		<div class="small-6 large-4 columns">
+      			<label>[[#{folha.mes}]]
+        			<select id="select-meses">
+        				<option value=""></option>
+        				<template v-for="mes in meses">
+      						<option v-bind:value="mes.value">{{mes.label}}</option>
+      					</template>  							 					
+  					</select>
+      			</label>
+    		</div>
+  		</div>
+  		  		
+  		<div class="row">
+    		<div class="small-6 large-4 columns">
+      			<label>[[#{folha.gestao}]]
+      				<select id="select-gestoes" v-on:change="getOrgaos()">
+      					<option value=""></option>
+        				<template v-for="gestao in gestoes">
+      						<option v-bind:value="gestao">{{gestao}}</option>
+      					</template>  							 					
+  					</select>
+      			</label>
+    		</div>
+   			<div class="small-6 large-4 columns">
+      			<label>[[#{folha.lotacao}]]
+        			<select id="select-orgaos">
+        				<option value=""></option>
+        				<template v-for="orgao in orgaos">
+      						<option v-bind:value="orgao">{{orgao}}</option>
+      					</template>  							 					
+  					</select>
+      			</label>
+    		</div>
+    		<div class="small-6 large-4 columns">
+      			<label>[[#{folha.nome}]]
+        			<input type="text" placeholder="Nome do servidor">
+      			</label>
+    		</div>
+  		</div>
+  		
+  		</div>
+  		
+  		<div class="row">
+  			<div class="small-2 large-2 columns">
+  				<a class="button text-center" href="#">[[#{folha.button.pesquisar}]]</a>
+  			</div>
+  		</div>
+	
 		<div class="carregando"></div>
 
-		<div class="table-responsive">
-            <table id="lista-folha" class="table table-striped text-centered">
+            <table id="lista-folha">
               <thead>
                 <tr>
                   <th>[[#{folha.esfera}]]</th>
@@ -40,9 +111,29 @@
               </tbody>
             </table>
           </div>
-    </div>
+    
+    
+    <ul id="page-navigation" class="pagination text-center" role="navigation" aria-label="Pagination">
+  		<li v-if="paginaAtiva == 1" class="pagination-previous disabled">[[#{folha.navigation.anterior}]]</li>
+  		<li v-else class="pagination-previous">
+  			<a v-on:click="decrementarPagina()" href="#" aria-label="Anterior">[[#{folha.navigation.anterior}]]</a>
+  		</li> 
+  		<template v-for="pagina in paginasDaJanelaAtual">
+	  		<li v-if="pagina === paginaAtiva" class="current">
+	  			<span v-on:click="irParaPagina(pagina)" class="show-for-sr"></span> {{pagina}}
+	  		</li>
+	  		<li v-else>
+	  			<a v-on:click="irParaPagina(pagina)" href="#">{{pagina}}</a>
+	  		</li>
+  		</template>		
+  		
+  		<li v-if="tamanhoJanela < totalPaginas" class="pagination-next">
+  			<a v-on:click="incrementarPagina()" href="#">[[#{folha.navigation.proxima}]]</a>
+  		</li>
+  		<li v-else class="pagination-next disabled">[[#{folha.navigation.proxima}]]</li>
+	</ul>
 
-	<div id="page-navigation">
+	<!--<div id="page-navigation">
 		<nav aria-label="...">
 		  <ul class="pagination">
 		    <li v-if="paginaAtiva == 1" class="disabled">
@@ -73,21 +164,12 @@
 		    </li>
 		  </ul>
 		</nav>
-	</div>	
+	</div>	-->
 
-	<!-- Bootstrap core JavaScript
-    ================================================== -->
-	<!-- Placed at the end of the document so the pages load faster -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-	<script th:src="@{~/js/libs/bootstrap.min.js}"></script>
-	<script th:src="@{~/js/libs/jquery-3.1.1.min.js}"></script>
+	<script th:src="@{~/js/libs/app.js}"></script>
+	<script th:src="@{~/js/libs/vendor/jquery.js}"></script>
+	<script th:src="@{~/js/libs/vendor/foundation.min.js}"></script>
 	<script th:src="@{~/js/libs/vue.min.js}" ></script>
-	<script src="../../assets/js/docs.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-
  	<script th:src="@{~/js/model/folha.js}" ></script>
 
 </html>

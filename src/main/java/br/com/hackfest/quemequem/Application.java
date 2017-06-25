@@ -1,5 +1,7 @@
 package br.com.hackfest.quemequem;
 
+import java.io.IOException;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -13,9 +15,15 @@ public class Application {
 		
 		ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
 
-		FolhaPessoalService folhaPessoalService = context.getBean(FolhaPessoalService.class);
+		/*FolhaPessoalService folhaService = context.getBean(FolhaPessoalService.class);
 		
-		folhaPessoalService.importarDadosEsferaEstadual();
+		try {
+			folhaService.importarDadosEsferaMunicipal("C:/Users/Tiago/Documents/TCE-PB-SAGRES-Folha_Pessoal_Esfera_Municipal.txt");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		
 
 	}
 

@@ -2,10 +2,14 @@ package br.com.hackfest.quemequem.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import br.com.hackfest.quemequem.enums.Esfera;
 
 @Entity
 @Table(name="folha_pessoal")
@@ -15,8 +19,8 @@ public class FolhaPessoal {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name="esfera")
-	private String esfera;
+	@Enumerated(EnumType.STRING)
+	private Esfera esfera;
 
 	@Column(name="gestao")
 	private String gestao;
@@ -41,7 +45,7 @@ public class FolhaPessoal {
 	
 	public FolhaPessoal(){
 		super();
-		this.esfera = "";
+		this.esfera = null;
 		this.gestao = "";
 		this.orgao = "";
 		this.cargo = "";
@@ -51,7 +55,7 @@ public class FolhaPessoal {
 		this.vantagem = 0f;
 	}
 
-	public FolhaPessoal(String esfera, String gestao, String orgao, String cargo, String nome, Integer mesReferencia,
+	public FolhaPessoal(Esfera esfera, String gestao, String orgao, String cargo, String nome, Integer mesReferencia,
 			Integer anoReferencia, Float vantagem) {
 		super();
 		this.esfera = esfera;
@@ -65,12 +69,12 @@ public class FolhaPessoal {
 	}
 	
 	
-	public String getEsfera() {
+	public Esfera getEsfera() {
 		return esfera;
 	}
 
 
-	public void setEsfera(String esfera) {
+	public void setEsfera(Esfera esfera) {
 		this.esfera = esfera;
 	}
 

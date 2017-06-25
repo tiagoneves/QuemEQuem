@@ -79,6 +79,154 @@ var pageNavVM = new Vue({
 	 
 });
 
+
+
+var esferasVM = new Vue({
+	el: "#select-esferas",
+	data:{
+		esferas: [],
+		esferaSelecionada:''
+	}, methods: {
+		
+		getAnos: function(){
+			
+			this.esferaSelecionada = $("#select-esferas").val();
+			
+			 $.get('/folha_pessoal/anos?esfera='+this.esferaSelecionada, function(data, status){
+				 anosVM.anos = data;
+			 });
+
+			 anosVM.anoSelecionado = '';
+			 mesesVM.meses = [];
+			 mesesVM.mesSelecionado = '';
+			 gestoesVM.gestoes = [];
+			 gestoesVM.gestaoSelecionada = '';
+			 orgaosVM.orgaos = [];
+			 orgaosVM.orgaoSelecionado = '';
+				 
+
+		}
+		
+	}
+});
+
+var anosVM = new Vue({
+	el: "#select-anos",
+	data:{
+		anos: [],
+		anoSelecionado: ''
+	}, methods: {
+		
+		getMeses: function(){
+			
+			this.anoSelecionado = $("#select-anos").val();
+			
+			 $.get('/folha_pessoal/meses?esfera='+esferasVM.esferaSelecionada+'&ano='+this.anoSelecionado, function(data, status){
+				 mesesVM.meses = data;
+				 mesesVM.mesSelecionado = '';
+			 });
+			 
+			 $.get('/folha_pessoal/gestoes?esfera='+esferasVM.esferaSelecionada+'&ano='+this.anoSelecionado, function(data, status){
+				 gestoesVM.gestoes = data;
+				 gestoesVM.gestaoSelecionada = '';
+			 });
+			 
+			 if (this.anoSelecionado === ''){
+				 mesesVM.meses = [];
+				 mesesVM.mesSelecionado = '';
+				 gestoesVM.gestoes = [];
+				 gestoesVM.gestaoSelecionada = '';
+			 }
+			 
+			 orgaosVM.orgaos = [];
+			 orgaosVM.orgaoSelecionado = '';
+			 
+		}
+		
+	}
+});
+
+var mesesVM = new Vue({
+	el: "#select-meses",
+	data:{
+		meses: [],
+		mesSelecionado: ''
+	}
+});
+
+var gestoesVM = new Vue({
+	el: "#select-gestoes",
+	data: {
+		gestoes: [],
+		gestaoSelecionada: ''
+	}, methods: {
+		
+		getOrgaos: function(){
+			
+			this.gestaoSelecionada = $("#select-gestoes").val();
+			
+			 $.get('/folha_pessoal/orgaos?esfera='+esferasVM.esferaSelecionada+'&ano='+anosVM.anoSelecionado
+					 +'&gestao='+this.gestaoSelecionada, function(data, status){
+				 orgaosVM.orgaos = data;
+				 orgaosVM.orgaoSelecionado = '';
+			 });
+			 
+			 if (this.gestaoSelecionada === ''){
+				 
+				 orgaosVM.orgaos = [];
+				 orgaosVM.orgaoSelecionado = '';
+				 
+			 }
+			 
+		}
+		
+	}
+});
+
+var orgaosVM = new Vue({
+	el: "#select-orgaos",
+	data:{
+		orgaos: [],
+		orgaoSelecionado: ''
+	}
+});
+
+
+/*var filtrosVM = new Vue({
+	
+	el: '#div-filtros',
+	
+	data:{
+		
+		esfera: {value: '', label: ''},
+		ano: '',
+		mes: {value: '', label: ''},
+		gestao: '',
+		orgao: '',
+		esferas: [],	
+		anos: [],
+		meses: [],
+		gestoes: [],
+		orgaos: [],
+		nome: ''
+		
+		
+	}, computed: {
+		 
+		 getEsferas: function(){
+			 
+			 $.get('/folha_pessoal/esferas', function(data, status){
+				 filtrosVM.esferas = data;
+			 });
+			 
+			 
+		 }
+		 
+		 
+	 }
+	
+});*/
+
 function exibirPagina(numero){
 	
 	var pagina = numero - (pageNavVM.paginaInferior - 1);
@@ -118,12 +266,17 @@ function carregarDados(ano, mes, esfera, gestao, nome, orgao, primeiraPagina, pa
     });
 	
 	
+	
 }
 
 
 $(document).ready(function(){
 		
-	carregarDados(0, 0, '', '', '', '', 1, 1);
+	carregarDados(0, 0, 'ESTADUAL', '', '', '', 1, 1);
+	
+	 $.get('/folha_pessoal/esferas', function(data, status){
+		 esferasVM.esferas = data;
+	 });
 
 });
 

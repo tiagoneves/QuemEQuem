@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import br.com.hackfest.quemequem.entity.FolhaPessoal;
+import br.com.hackfest.quemequem.enums.Esfera;
 
 public class FolhaPessoalRepositoryImpl implements FolhaPessoalRepositoryCustom {
 
@@ -15,7 +16,7 @@ public class FolhaPessoalRepositoryImpl implements FolhaPessoalRepositoryCustom 
 
 	@Override
 	public List<FolhaPessoal> listarComFiltros(Integer ano, Integer mes, 
-			String esfera, String gestao, String nome, String orgao, Integer offset, Integer limit) {		
+			Esfera esfera, String gestao, String nome, String orgao, Integer offset, Integer limit) {		
 		
 		String jpql = "SELECT f FROM FolhaPessoal f"+adicionarFiltros(ano, mes, esfera, gestao, nome, orgao)+
 				" ORDER BY f.nome, f.anoReferencia DESC, f.mesReferencia DESC";
@@ -28,11 +29,11 @@ public class FolhaPessoalRepositoryImpl implements FolhaPessoalRepositoryCustom 
 		
 	}
 	
-	private String adicionarFiltros(Integer ano, Integer mes, String esfera, String gestao, String nome, String orgao){
+	private String adicionarFiltros(Integer ano, Integer mes, Esfera esfera, String gestao, String nome, String orgao){
 		
 		String where = "";
 		
-		if (esfera != null && !esfera.trim().isEmpty()) {
+		if (esfera != null) {
 			where += where.isEmpty()? " WHERE " : " AND ";
 			where += "f.esfera = '"+esfera+"'";
 		}

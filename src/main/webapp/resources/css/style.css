@@ -29,10 +29,6 @@
   100% { transform: rotate(360deg); }
 }
 
-#page-navigation {
-	margin-left:30%;
-}
-
 tbody{
 	font-size: 12px;
 }
