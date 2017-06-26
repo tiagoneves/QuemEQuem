@@ -69,7 +69,7 @@
     		</div>
     		<div class="small-6 large-4 columns">
       			<label>[[#{folha.nome}]]
-        			<input type="text" placeholder="Nome do servidor">
+        			<input id="input-nome" v-model="nome" type="text" placeholder="Nome do servidor">
       			</label>
     		</div>
   		</div>
@@ -78,7 +78,7 @@
   		
   		<div class="row">
   			<div class="small-2 large-2 columns">
-  				<a class="button text-center" href="#">[[#{folha.button.pesquisar}]]</a>
+  				<a id="btn-pesquisar" v-on:click="pesquisar()" class="button text-center" href="#">[[#{folha.button.pesquisar}]]</a>
   			</div>
   		</div>
 	

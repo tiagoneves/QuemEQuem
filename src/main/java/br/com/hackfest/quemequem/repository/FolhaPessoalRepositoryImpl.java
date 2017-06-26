@@ -50,7 +50,7 @@ public class FolhaPessoalRepositoryImpl implements FolhaPessoalRepositoryCustom 
 		
 		if (nome != null && !nome.trim().isEmpty()) {
 			where += where.isEmpty()? " WHERE " : " AND ";
-			where += "f.nome = '"+nome+"'";
+			where += "UPPER(f.nome) LIKE '%"+nome.toUpperCase()+"%'";
 		}
 		
 		if (mes != null && mes > 0 ) {

@@ -57,8 +57,18 @@ var pageNavVM = new Vue({
 			 
 			 if (this.paginaAtiva <= this.paginaSuperior)
 				 exibirPagina(this.paginaAtiva);
-			 else
-				 carregarDados(0, 0, '', '', '', '', ++pageNavVM.paginaInferior, this.paginaAtiva);
+			 else {
+				 
+				 	var ano = $('#select-anos').val();
+					var mes = $('#select-meses').val();
+					var esfera = $('#select-esferas').val();
+					var gestao = $('#select-gestoes').val();
+					var nome = nomeVM.nome;
+					var orgao = $('#select-orgaos').val();
+					
+					carregarDados(ano, mes, esfera, gestao, nome, orgao, ++pageNavVM.paginaInferior, this.paginaAtiva);
+				 
+			 }
 			 
 		 },
 		 
@@ -68,8 +78,18 @@ var pageNavVM = new Vue({
 			 
 			 if (this.paginaAtiva >= this.paginaInferior)
 				 exibirPagina(this.paginaAtiva);
-			 else
-				 carregarDados(0, 0, '', '', '', '', --pageNavVM.paginaInferior, this.paginaAtiva);
+			 else {
+				 
+				 	var ano = $('#select-anos').val();
+					var mes = $('#select-meses').val();
+					var esfera = $('#select-esferas').val();
+					var gestao = $('#select-gestoes').val();
+					var nome = nomeVM.nome;
+					var orgao = $('#select-orgaos').val();
+					
+					carregarDados(ano, mes, esfera, gestao, nome, orgao, --pageNavVM.paginaInferior, this.paginaAtiva);
+				 
+			 }
 			 
 		 }
 	 
@@ -191,41 +211,34 @@ var orgaosVM = new Vue({
 	}
 });
 
-
-/*var filtrosVM = new Vue({
-	
-	el: '#div-filtros',
-	
+var nomeVM = new Vue({
+	el: "#input-nome",
 	data:{
-		
-		esfera: {value: '', label: ''},
-		ano: '',
-		mes: {value: '', label: ''},
-		gestao: '',
-		orgao: '',
-		esferas: [],	
-		anos: [],
-		meses: [],
-		gestoes: [],
-		orgaos: [],
 		nome: ''
+	}
+});
+
+
+var pesquisaVM = new Vue({
+	el: "#btn-pesquisar",
+	methods:{
 		
+		pesquisar: function(){
+			
+			var ano = $('#select-anos').val();
+			var mes = $('#select-meses').val();
+			var esfera = $('#select-esferas').val();
+			var gestao = $('#select-gestoes').val();
+			var nome = nomeVM.nome;
+			var orgao = $('#select-orgaos').val();
+			
+			carregarDados(ano, mes, esfera, gestao, nome, orgao, 1, 1);
+			
+		}
 		
-	}, computed: {
-		 
-		 getEsferas: function(){
-			 
-			 $.get('/folha_pessoal/esferas', function(data, status){
-				 filtrosVM.esferas = data;
-			 });
-			 
-			 
-		 }
-		 
-		 
-	 }
-	
-});*/
+	}
+});
+
 
 function exibirPagina(numero){
 	
@@ -262,6 +275,8 @@ function carregarDados(ano, mes, esfera, gestao, nome, orgao, primeiraPagina, pa
         
         $('.carregando').css('display', 'none');
 		$('tbody').css('color', '#333');
+		$('#lista-folha').css('display', 'inline-table');
+		$('#page-navigation').css('display', 'block');
         
     });
 	
@@ -271,9 +286,7 @@ function carregarDados(ano, mes, esfera, gestao, nome, orgao, primeiraPagina, pa
 
 
 $(document).ready(function(){
-		
-	carregarDados(0, 0, 'ESTADUAL', '', '', '', 1, 1);
-	
+			
 	 $.get('/folha_pessoal/esferas', function(data, status){
 		 esferasVM.esferas = data;
 	 });

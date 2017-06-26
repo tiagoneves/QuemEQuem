@@ -8,8 +8,6 @@ import br.com.hackfest.quemequem.entity.FolhaPessoal;
 @Repository
 public interface FolhaPessoalRepository extends JpaRepository<FolhaPessoal, Integer>, FolhaPessoalRepositoryCustom {
 
-	FolhaPessoal findByNomeEquals(String nome);
-	
-	
+	FolhaPessoal findByNomeEquals(String nome);	
 		
 }
